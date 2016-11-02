@@ -214,23 +214,23 @@ jvalueType javaGetType(JNIEnv *env, jclass type) {
 }
 
 jclass javaFindClass(JNIEnv* env, std::string& className) {
-  std::string searchClassName = className;
-  std::replace(searchClassName.begin(), searchClassName.end(), '.', '/');
+  // std::string searchClassName = className;
+  // std::replace(searchClassName.begin(), searchClassName.end(), '.', '/');
 
-// Alternate find class trying to fix Class.forName
-//  jclass threadClazz = env->FindClass("java/lang/Thread");
-//  jmethodID thread_getCurrentThread = env->GetStaticMethodID(threadClazz, "currentThread", "()Ljava/lang/Thread;");
-//  jmethodID thread_getContextClassLoader = env->GetMethodID(threadClazz, "getContextClassLoader", "()Ljava/lang/ClassLoader;");
-//
-//  jclass classLoaderClazz = env->FindClass("java/lang/ClassLoader");
-//  jmethodID classLoader_loadClass = env->GetMethodID(classLoaderClazz, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
-//
-//  jobject currentThread = env->CallObjectMethod(threadClazz, thread_getCurrentThread);
-//  jobject classLoader = env->CallObjectMethod(currentThread, thread_getContextClassLoader);
-//  jstring searchClassNameJava = env->NewStringUTF(className.c_str());
-//  jclass clazz = (jclass)env->CallObjectMethod(classLoader, classLoader_loadClass, searchClassNameJava);
+  // Alternate find class trying to fix Class.forName
+  jclass threadClazz = env->FindClass("java/lang/Thread");
+  jmethodID thread_getCurrentThread = env->GetStaticMethodID(threadClazz, "currentThread", "()Ljava/lang/Thread;");
+  jmethodID thread_getContextClassLoader = env->GetMethodID(threadClazz, "getContextClassLoader", "()Ljava/lang/ClassLoader;");
 
-  jclass clazz = env->FindClass(searchClassName.c_str());
+  jclass classLoaderClazz = env->FindClass("java/lang/ClassLoader");
+  jmethodID classLoader_loadClass = env->GetMethodID(classLoaderClazz, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+
+  jobject currentThread = env->CallObjectMethod(threadClazz, thread_getCurrentThread);
+  jobject classLoader = env->CallObjectMethod(currentThread, thread_getContextClassLoader);
+  jstring searchClassNameJava = env->NewStringUTF(className.c_str());
+  jclass clazz = (jclass)env->CallObjectMethod(classLoader, classLoader_loadClass, searchClassNameJava);
+
+  // jclass clazz = env->FindClass(searchClassName.c_str());
   return clazz;
 }
 
