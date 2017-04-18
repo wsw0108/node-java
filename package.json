@@ -1,5 +1,5 @@
 {
-  "name": "java",
+  "name": "maptalks-java",
   "description": "Bridge API to connect with existing Java APIs.",
   "author": "Joe Ferner <joe@fernsroth.com>",
   "keywords": [
@@ -18,12 +18,12 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/joeferner/node-java/issues"
+    "url": "https://github.com/wsw0108/node-java/issues"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/joeferner/node-java.git"
+    "url": "https://github.com/wsw0108/node-java.git"
   },
   "dependencies": {
     "async": "2.0.1",
